@@ -1,5 +1,5 @@
 import pickle
-
+import os
 # we are going to use the Flask micro web framework for our prediction web app
 # Goal: Create a web app or a simple/predict API service
 from flask import Flask, request, jsonify
@@ -53,7 +53,23 @@ if __name__ == "__main__":
     # header, tree = load_model()
     # print(header)
     # print(tree)
-    app.run(debug=True, port=5001)
+    # app.run(debug=True, port=5001)
     # TODO: set debug=False when deploy
+    port = os.environ.get("PORT", 5000) # Heroku wil set the PORT env var
+    app.run(debug=False, host="0.0.0.0", port=port)
     # default port number is 5000; however, if running in a docker container
     # you need to check port forwarding
+    
+    # Deployment
+    # Two main categories:
+    # 1. Deploying to a server
+        # Hosting your own server
+        # Use a cloud service
+    
+    # We will use Heroku, (BaaS - Backend as a Service)
+    # There are different ways to do so:
+    # 1. Deploy directly on an ubuntu "stack" (e.g., Procfile - how do I deploy the app, and requirements.txt - what do I need to install)
+    # 2. Use Docker (containerization) (Dockerfile)
+        # 2.1 Build a docker image locally and push it a container registry (e.g., Docker Hub)
+        # 2.2 Define a heroku.yml file to build the image on Heroku and push it to the Heroku container registry
+        # 2.3 Define a main.yml file to build the image on GitHub Actions and push it to the Heroku container registry
